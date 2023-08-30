@@ -1,0 +1,18 @@
+#开发环境配置
+server:
+  port: ${server.port}
+spring:
+  application:
+    name: api-gateway-web
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.221:8848
+      config:
+        server-addr: 192.168.1.221:8848
+        file-extension: yml
+        shared-configs:
+          - data-id: iot-common-${spring.profiles.active}.yml
+            refresh: true
+          - data-id: redis-common-${spring.profiles.active}.yml
+            refresh: true
