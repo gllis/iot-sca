@@ -1,0 +1,21 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: iot-sca-auth
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.66.220:8848
+      discovery:
+        server-addr: 192.168.66.220:8848
+  config:
+    import:
+      - optional:nacos:iot-sca-auth.yml
+
+
+iot:
+  jwt:
+    secret: 123456
+    expiration-milliseconds: 60

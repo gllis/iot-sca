@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.gllis</groupId>
-        <artifactId>iot-sca</artifactId>
+        <artifactId>iot-sca-auth</artifactId>
         <version>1.0</version>
     </parent>
 
-    <artifactId>iot-sca-auth</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>iot-sca-auth-model</module>
-        <module>iot-sca-auth-web</module>
-    </modules>
+    <artifactId>iot-sca-auth-model</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -22,6 +17,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

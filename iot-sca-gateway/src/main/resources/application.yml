@@ -1,2 +1,26 @@
 server:
   port: 8888
+
+spring:
+  application:
+    name: iot-sca-gateway
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.66.220:8848
+      discovery:
+        server-addr: 192.168.66.220:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: iot-auth
+          uri: lb://iot-auth
+          predicates:
+            - Path=/auth/**
+  config:
+    import:
+     - optional:nacos:iot-sca-gateway.yml
+
