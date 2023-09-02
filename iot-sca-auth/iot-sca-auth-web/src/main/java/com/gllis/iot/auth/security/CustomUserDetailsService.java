@@ -1,7 +1,10 @@
 package com.gllis.iot.auth.security;
 
-import com.gllis.iot.auth.model.RoleEntity;
-import com.gllis.iot.auth.model.UserEntity;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.gllis.iot.auth.entity.RoleEntity;
+import com.gllis.iot.auth.entity.UserEntity;
+import com.gllis.iot.auth.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,10 +26,12 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    @Autowired
+    private IUserService iUserService;
 
     @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        UserEntity userEntity = new UserEntity();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = iUserService.getOne(new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getEmail, username), false);
         return new User(userEntity.getEmail(),
                 userEntity.getPassword(), mapRolesToAuthorities(userEntity.getRoles()));
     }

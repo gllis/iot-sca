@@ -13,7 +13,40 @@ spring:
   config:
     import:
       - optional:nacos:iot-sca-auth.yml
+      - optional:nacos:mysql-common.yml
 
+
+  shardingsphere:
+    mode:
+      type: Standalone
+    datasource:
+      names: master,slave1
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.66.220:3306/iot?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: mysql
+      slave1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.66.220:3306/iot?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: mysql
+    masterslave:
+      name: master-slave
+      master-data-source-name: master
+      slave-data-source-names: slave1
+      load-balance-algorithm-type: round_robin  #配置从库选择策略，提供轮询与随机，这里选择用轮询//random 随机 //round_robin 轮询
+    props:
+      sql: # 开启SQL显示，默认值: false，注意：仅配置读写分离时不会打印日志！！！
+        show: true
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+    map-underscore-to-camel-case: true
 
 iot:
   jwt:
